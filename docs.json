@@ -31,6 +31,13 @@
               "guide/fundamentals/analytics",
               "guide/fundamentals/usage"
             ]
+          },
+          {
+            "group": "Conversations",
+            "pages": [
+              "guide/conversation/connect-phone-number",
+              "guide/conversation/phone-number-conversations"
+            ]
           }
         ]
       },
