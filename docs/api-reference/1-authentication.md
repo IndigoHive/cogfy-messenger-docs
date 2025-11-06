@@ -7,7 +7,7 @@ sidebar_position: 2
 All requests made to the Cogfy Messenger API must be authenticated. This is done by providing an API key in the headers of each request:
 
 ```
-Api-Key: <COGFY_API_KEY>
+Api-Key: <COGFY_MESSENGER_API_KEY>
 ```
 
 :::danger
@@ -35,7 +35,7 @@ const sendMessage = await fetch(
   'https://messenger-public-api.cogfy.com/messages/text',
   {
     headers: {
-      'Api-Key': process.env.COGFY_API_KEY
+      'Api-Key': process.env.COGFY_MESSENGER_API_KEY
     },
     body: {
       'from': 'string',
