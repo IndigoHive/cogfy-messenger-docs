@@ -21,12 +21,15 @@
             ]
           },
           {
-            "group": "Workspace",
+            "group": "Fundamentals",
             "pages": [
-              "guide/workspaces/overview",
-              "guide/workspaces/members",
-              "guide/workspaces/tags",
-              "guide/workspaces/api-keys"
+              "guide/fundamentals/overview",
+              "guide/fundamentals/members",
+              "guide/fundamentals/tags",
+              "guide/fundamentals/api-keys",
+              "guide/fundamentals/contacts",
+              "guide/fundamentals/analytics",
+              "guide/fundamentals/usage"
             ]
           }
         ]
