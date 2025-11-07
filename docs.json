@@ -33,10 +33,20 @@
             ]
           },
           {
-            "group": "Conversations",
+            "group": "Phone numbers",
             "pages": [
-              "guide/conversation/connect-phone-number",
-              "guide/conversation/phone-number-conversations"
+              "guide/phone-numbers/connect-phone-number",
+              "guide/phone-numbers/phone-number-conversations",
+              "guide/phone-numbers/whatsapp-phone-profile-settings"
+            ]
+          },
+          {
+            "group": "Assistants",
+            "pages": [
+              "guide/assistants/overview",
+              "guide/assistants/creating-an-assistant",
+              "guide/assistants/plugins",
+              "guide/assistants/link-assistant-to-phone-number"
             ]
           }
         ]
