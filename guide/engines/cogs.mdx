@@ -37,3 +37,26 @@ by Engine and meant to be used by Engines only.
 
 Because of the complexity and reusability of configuring an Engine Assistant, we also moved their creation to a separate
 section called "Assistants", which is covered in the Assistants chapter of this guide.
+
+## Router cog
+
+The Router cog is used to route the workflow execution to different paths based on certain conditions.
+
+<img src="images/cogs/router.png" alt="The router cog." style={{ borderRadius: '0.5rem' }} />
+
+Conditions can be configured by clicking on the pencil icon on the right of each path cog, which will prompt a modal
+where you can intuitively set up conditions, as follows:
+
+<img src="images/cogs/edit-router-path-modal.png" alt="The router cog conditions modal." style={{ borderRadius: '0.5rem' }} />
+
+As long as there aren't any typos, this path will only be matched if the first name is equal to King and the second name
+is equal to Witcher.
+
+<Info>
+After executing every matching path, the workflow execution will continue after the router cog.
+</Info>
+
+<Warning>
+Currently, if more than one path's conditions are met, every matching path will be executed in the order they are defined in the
+router cog. In the future, this behavior will be optional.
+</Warning>
