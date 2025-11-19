@@ -60,3 +60,40 @@ After executing every matching path, the workflow execution will continue after 
 Currently, if more than one path's conditions are met, every matching path will be executed in the order they are defined in the
 router cog. In the future, this behavior will be optional.
 </Warning>
+
+## LLM Router cog
+
+Rather then relying on predefined conditions, the LLM Router cog is used to route the workflow execution to different
+paths based on the output of a Large Language Model (LLM), such as GPT, consdiering the current conversation context and
+any custom prompt you may want to provide.
+
+<img src="images/cogs/llm-router.png" alt="The LLM router cog." style={{ borderRadius: '0.5rem' }} />
+
+### LLM Router
+
+The LLM Router cog on top allows you to define the model, some optional instructions to guide the model's behavior and a
+default behavior in case none of the paths are matched by the LLM, as shown below:
+
+<img src="images/cogs/edit-llm-router.png" alt="Edit LLM modal." style={{ borderRadius: '0.5rem' }} />
+
+The default behavior field describes what to do if none of the paths are matched. You can choose between the following
+options:
+
+- **Use first route**: Route to the first path defined in the LLM Router cog.
+- **Use last route**: Route to the last path defined in the LLM Router cog.
+- **Throw error**: Throw an error and stop the workflow execution.
+- **Stop**: Stop the workflow execution. Further cogs will not be executed.
+- **Run next cog**: Continue the workflow execution with the next cog after the LLM Router cog.
+- **Send default message**: Send a predefined message of your choice to the user.
+
+### LLM Router path
+
+Each LLM Router path cog allows you to define the name of the path and a prompt that will be used to determine which
+path to take. Both the name and the prompt will be used by the LLM.
+
+<img src="images/cogs/edit-llm-router-path.png" alt="Edit LLM Router path modal." style={{ borderRadius: '0.5rem' }} />
+
+<Tip>
+Keep the route names short and simple, as they will be provided to the LLM as options to choose from. Excessive
+complexty may lead to LLM confusion and unexpected behavior.
+</Tip>
