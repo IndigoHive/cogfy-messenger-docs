@@ -41,6 +41,14 @@
             ]
           },
           {
+            "group": "Engines",
+            "pages": [
+              "guide/engines/overview",
+              "guide/engines/workflow",
+              "guide/engines/cogs"
+            ]
+          },
+          {
             "group": "Assistants",
             "pages": [
               "guide/assistants/overview",
