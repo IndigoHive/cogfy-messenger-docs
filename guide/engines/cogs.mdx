@@ -61,6 +61,10 @@ Currently, if more than one path's conditions are met, every matching path will 
 router cog. In the future, this behavior will be optional.
 </Warning>
 
+<Tip>
+Cogs can be dragged and dropped from and into paths for better user experience.
+</Tip>
+
 ## LLM Router cog
 
 Rather then relying on predefined conditions, the LLM Router cog is used to route the workflow execution to different
@@ -68,6 +72,10 @@ paths based on the output of a Large Language Model (LLM), such as GPT, consdier
 any custom prompt you may want to provide.
 
 <img src="images/cogs/llm-router.png" alt="The LLM router cog." style={{ borderRadius: '0.5rem' }} />
+
+<Tip>
+Just like the Router cog, cogs can be dragged and dropped from and into paths.
+</Tip>
 
 ### LLM Router
 
@@ -107,4 +115,21 @@ The Update Contact cog updates a field of your choice in the contact profile.
 <Info>
 For now, the only supported options are adding and removing tags from the contact, because it wouldn't make sense to
 update other fields to predefined values. In the future, we may add support for more complex updates using variables.
+</Info>
+
+## Command cog
+
+The Command cog is a special cog that allows you to trigger a differnet set of cogs when the user types the specified
+command name, preceded by a slash (/).
+
+<img src="images/cogs/command.png" alt="The command cog." style={{ borderRadius: '0.5rem' }} />
+
+Commands are a great way to provide quick access to specific functionalities of your bot, without having to rely on LLM
+interpretation for intention recognition, which might not always be accurate.
+
+When a command cog is matched, the default workflow is ignored. For that reason, command cogs are placed outside the
+default section and they cannot be placed inside other cogs, such as routers.
+
+<Info>
+Commands are shown to users as suggestions when they type the slash (/) character in the chat input.
 </Info>
