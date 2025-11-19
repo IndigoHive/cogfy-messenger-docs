@@ -13,7 +13,6 @@ In this chapter, we will go throuhg different types of cogs available in Cogfy M
 
 ## Send Message cog
 
-
 The Send Message cog is used to send a predefined message to the user.
 
 Because messages can be reused in multiple places and some of them can be quite complex (for example, Whatsapp Flows),
@@ -23,3 +22,18 @@ After having at least one message created, you configure a Send Message cog to r
 cog's dropdown, as shown below.
 
 <img src="images/cogs/send-message.png" alt="The send message cog." style={{ borderRadius: '0.5rem' }} />
+
+## Run Assistant cog
+
+The Run Assistant cog is used to run a Engine Assistant to generate a reply, considering the current conversation
+context.
+
+<img src="images/cogs/run-assistant.png" alt="The run assistant cog." style={{ borderRadius: '0.5rem' }} />
+
+<Info>
+Not to be confused with with the old Cogfy Assistants: Engine Assistants are a new concept of assistants that are scoped
+by Engine and meant to be used by Engines only.
+</Info>
+
+Because of the complexity and reusability of configuring an Engine Assistant, we also moved their creation to a separate
+section called "Assistants", which is covered in the Assistants chapter of this guide.
