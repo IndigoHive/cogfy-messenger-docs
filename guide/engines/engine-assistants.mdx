@@ -66,7 +66,7 @@ currently four types of plugins available:
 - **MCP**: allows the assistant to interact with MCP services.
 - **Send Messages**: allows the assistant to send messages from the messages gallery.
 
-### Clock plugin
+### Clock
 
 LLMs are made of static data that, after going through complex mathematical
 operations, can generate human-like text. Therefore, these calculations
@@ -76,3 +76,33 @@ Because of that, the Clock plugin is pretty straightforward: it attaches Date
 and Time information to the prompt, so that the LLM can use it when generating
 responses.
 
+### HTTP Request
+
+The HTTP Request is an advanced plugin allows the assistant to make HTTP
+requests to external APIs as it's generated response, instead of generating
+text.
+
+Selecting this plugin will open a configuration form where you can set the
+HTTP method, URL, headers, timeout and body of the request.
+
+<Info>
+More technically, this plugin achieves this by setting a *tool*
+in the LLM's prompt with some description.
+</Info>
+
+### MCP
+
+*To be documented soon.*
+
+### Send Messages
+
+This plugin is the simples plugin: it basically gives the LLM the capability to
+send a send a specific message from your messages gallery as is's response.
+
+For that, you should give a short name and a brief description to help the LLM
+understand when to send this message.
+
+<Info>
+Just like the HTTP Request plugin, this plugin achieves this by setting a *tool*
+in the LLM's prompt with some description.
+</Info>
