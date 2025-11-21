@@ -53,13 +53,9 @@ As long as there aren't any typos, this path will only be matched if the first n
 is equal to Witcher.
 
 <Info>
-After executing every matching path, the workflow execution will continue after the router cog.
+- After executing the matching path, the workflow execution will continue after the router cog.
+- If more than one path matches the conditions, only the first matching path will be executed.
 </Info>
-
-<Warning>
-Currently, if more than one path's conditions are met, every matching path will be executed in the order they are defined in the
-router cog. In the future, this behavior will be optional.
-</Warning>
 
 <Tip>
 Cogs can be dragged and dropped from and into paths for better user experience.
