@@ -26,6 +26,8 @@ Run the following command at the root of your documentation, where your `package
 npm run dev
 ```
 
+Or, if you have the Microsoft Edge extension installed, you can just press F5.
+
 View your local preview at `http://localhost:3000`.
 
 ## Publishing changes
