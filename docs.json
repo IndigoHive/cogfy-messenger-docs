@@ -45,7 +45,8 @@
             "pages": [
               "guide/engines/overview",
               "guide/engines/workflow",
-              "guide/engines/cogs"
+              "guide/engines/cogs",
+              "guide/engines/engine-assistants"
             ]
           },
           {
