@@ -2,12 +2,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "msedge",
-      "name": "Launch",
+      "type": "node-terminal",
+      "name": "Run npm dev script",
       "request": "launch",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}",
-      "preLaunchTask": "npm run dev"
+      "command": "npm run dev",
+      "outputCapture": "console",
     }
   ]
 }
