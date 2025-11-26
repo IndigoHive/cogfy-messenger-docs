@@ -28,7 +28,7 @@ npm run dev
 
 Or, if you have the Microsoft Edge extension installed, you can just press F5.
 
-View your local preview at `http://localhost:3000`.
+The command line will automatically launch your default browser in http://localhost:3000.
 
 ## Publishing changes
 
