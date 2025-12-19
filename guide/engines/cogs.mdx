@@ -139,3 +139,15 @@ The HTTP Request cog allows you to make HTTP requests to external services.
 When you click on the pencil icon on the right, a modal will open where you can configure the HTTP request in detail.
 Most fields are self-explanatory, and you can also configure a request timeout for when the external service takes too
 long to respond, as you can see in the example above.
+
+## Try-Catch cog
+
+The Try-Catch cog allows you to handle errors gracefully in your workflow.
+
+<img src="images/cogs/try-catch-example.png" alt="The try-catch cog." style={{ borderRadius: '0.5rem' }} />
+
+The Try path contains the cogs that will be executed normally. If any of those cogs throw an error, the execution will
+jump to the Catch path, where you can define how to handle the error, for example by sending a message to the user apologizing for
+the inconvenience.
+
+<img src="images/cogs/try-catch-chat-preview-example.png" alt="The try-catch chat preview example." style={{ borderRadius: '0.5rem' }} />
