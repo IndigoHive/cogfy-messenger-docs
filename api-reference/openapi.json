@@ -784,17 +784,17 @@
                           "updateDate": {
                             "type": "string",
                             "format": "date-time"
-                          },
-                          "cursors": {
-                            "type": "object",
-                            "properties": {
-                              "next": {
-                                "type": "string",
-                                "nullable": true,
-                                "description": "Cursor for the next page"
-                              }
-                            }
                           }
+                        }
+                      }
+                    },
+                    "cursors": {
+                      "type": "object",
+                      "properties": {
+                        "next": {
+                          "type": "string",
+                          "nullable": true,
+                          "description": "Cursor for the next page"
                         }
                       }
                     }
