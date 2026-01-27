@@ -411,6 +411,16 @@
                   },
                   "notes": {
                     "type": "string"
+                  },
+                  "customProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Custom properties associated with the contact",
+                    "example": {
+                      "Favorite Color": "Blue"
+                    }
                   }
                 }
               }
@@ -580,6 +590,16 @@
                     "updateDate": {
                       "type": "string",
                       "format": "date-time"
+                    },
+                    "customProperties": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "description": "Custom properties associated with the contact",
+                      "example": {
+                        "Favorite Color": "Blue"
+                      }
                     }
                   }
                 }
@@ -639,6 +659,16 @@
                   },
                   "notes": {
                     "type": "string"
+                  },
+                  "customProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "description": "Custom properties associated with the contact",
+                    "example": {
+                      "Favorite Color": "Blue"
+                    }
                   }
                 }
               }
@@ -784,6 +814,16 @@
                           "updateDate": {
                             "type": "string",
                             "format": "date-time"
+                          },
+                          "customProperties": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "string"
+                            },
+                            "description": "Custom properties associated with the contact",
+                            "example": {
+                              "Favorite Color": "Blue"
+                            }
                           }
                         }
                       }
