@@ -1,0 +1,191 @@
+---
+title: "Create Your First Workflow"
+description: "In this tutorial you will quickly learn how to create a new workflow and publish it in a phone number."
+---
+
+In this tutorial, we will create a simple AI assistant powered workflow.
+
+## Requirements
+You need a **phone number** to publish a workflow and make it available to your users. Please refer to the <a href="/guide/phone-numbers/connect-phone-number">phone number documentation</a> for more information.
+<Note>You can still create workflows and test them in our sandbox preview.</Note>
+
+## Creating your first workflow
+
+<Steps>
+
+<Step title="First Step - Creating a new Workflow">
+  Inside Cogfy Messenger, go to the Workflows section in the sidebar or visit [messenger.cogfy.com/:WORKSPACE/workflows](https://messenger.cogfy.com)  and click _New workflow_.
+
+  Fill in the **name**, choose the **workflow type** and hit *Confirm*.
+
+  > For this tutorial, we will use the **Message Received** workflow.
+
+  <img
+    src="/guide/workflows/images/tutorial-first-workflow/tutorial-create-workflow-dialog.png"
+    alt="Create New Workflow Dialog"
+    style={{
+      border: "2px solid rgba(164,164,164,0.1)",
+      borderRadius: "16px"
+    }}
+  />
+
+  At this point you shoud be in the workflow <u>sandbox</u> and the workflow has already been created.
+
+  You should see something like this:
+  <img
+    src="/guide/workflows/images/tutorial-first-workflow/workflow-created.png"
+    alt="Workflow Created"
+    style={{
+      border: "2px solid rgba(164,164,164,0.1)",
+      borderRadius: "16px"
+    }}
+  />
+</Step>
+
+<Step title="Second Step - Building the Workflow">
+
+  On the sidebar, click on Assistant and add a [OpenAI Assistant Node]().
+
+  Connect the trigger node to the OpenAI Assistant Node by clicking and dragging the handles, therefore creating an edge.
+
+  ---
+
+  On the sidebar, click on Send Message and add a [WhatsApp Text Message Node]().
+
+  Connect the OpenAI Assistant Node to the WhatsApp Text Message Node.
+
+  ---
+
+  Now we have created a complete workflow path that has a trigger, an AI Assistant and an output through WhatsApp.
+
+  <Note>Don't forget to save by clicking the save button at the top right corner!</Note>
+
+  <img
+    src="/guide/workflows/images/tutorial-first-workflow/complete-workflow-path.png"
+    alt="Workflow Nodes Connected"
+    style={{
+      border: "2px solid rgba(164,164,164,0.1)",
+      borderRadius: "16px"
+    }}
+  />
+</Step>
+
+<Step title="Third Step - Configuring the OpenAI Asistant Node">
+  Select the OpenAI Assistant Node (a green border shows which node is selected) and click the Edit button, or double click the node to open the Edit Node Dialog.
+
+  > You can click the *Brackets* **\{}** button on each field to enter interpolation mode. With interpolation, we can access properties of previous nodes by using `{{$nodes['Node Name'].property}}`.
+
+  - **Input** is the message to be sent to the Assistant. For our OpenAI Assistant Node, we want the Message Received trigger content (e.g. the user message) to be the input.
+  On the *Input* field activate interpolation mode and insert `{{$nodes['Message Received'].message.content}}`.
+
+  - **Model** is the AI brain that your users will be talking to, there are more powerfull and expensive models as well as simpler, cheap and blazing fast models. You can choose any model you like, in this tutorial we will be using `GPT-4o`.
+
+  - **Instructions** are a way to control the Assistant to behave just how you'd like, you can make it kind, serious, make it give shorter answers or even make it talk like a pirate! You can give any instructions you want, in this tutorial we will just ask the AI Assistant to be kind... and to talk like a pirate... Ahoy!
+
+  - **Max output tokens** will depend on the model you chose, if you choose a powerfull model, you should bump this setting up. Otherwise, you can take it a bit slower. In this tutorial, we will use a maximum of `400` tokens.
+    > Tokens are the base element for AI processes. Its how the AI segments your text before generating a response.
+
+  After all this, your OpenAI Assistant Node should look something like this:
+
+  <img
+    src="/guide/workflows/images/tutorial-first-workflow/filled-open-ai-assistant.png"
+    alt="Filled OpenAI Assistant Node"
+    style={{
+      border: "2px solid rgba(164,164,164,0.1)",
+      borderRadius: "16px"
+    }}
+  />
+
+  Hit the save button and move on to the next step!
+</Step>
+
+<Step title="Fourth Step - Configuring the WhatsApp Text Message Node">
+  Select the Send WhatsApp Text Message Node and click the edit button.
+
+  - **Phone Number WhatsApp ID** is the WhatsApp ID of the phone number that will send that message. This field will list all your WhatsApp phone numbers connected to Cogfy.
+    You can leave it blank or choose *Use fallback value* to use the phone number that received the message in the trigger node, which is our case in this tutorial.
+    <Info>
+      You can achieve the same result as *Use fallback value* by using the following in interpolation mode.
+
+      ```
+      {{$nodes['Message Received'].message.to}}
+      ```
+    </Info>
+
+  - **Recipient WhatsApp ID** is the WhatsApp ID of the phone number that will receive the message sent from this node. You can leave it blank to use the phone number that sent the message caught by the trigger node, that is the user that sent the message, which is our case in this tutorial.
+    <Info>
+      You can achieve the same result as blank value by using the following in interpolation mode.
+
+      ```
+      {{$nodes['Message Received'].message.from}}
+      ```
+    </Info>
+
+  - **Message Content** is the content to be sent in the WhatsApp message. In this tutorial, we want this to be the message generated by our OpenAI Assistant Node.
+
+    Use interpolation mode to access the Assistant last message's content.
+    ```
+    {{$nodes['OpenAI Assistant'].lastMessage.content}}
+    ```
+
+  After all this, your OpenAI Assistant Node should look something like this:
+
+  <img
+    src="/guide/workflows/images/tutorial-first-workflow/complete-whatsapp-text-message-node.png"
+    alt="Filled WhatsApp Text Message Node"
+    style={{
+      border: "2px solid rgba(164,164,164,0.1)",
+      borderRadius: "16px"
+    }}
+  />
+
+  Hit the save button and move on to the next step!
+
+</Step >
+<Step title="Fifth Step - Sandbox Preview">
+
+  Now you have a complete workflow!
+
+  You can test it using the *Preview* button on the top right corner.
+
+  <img
+    src="/guide/workflows/images/tutorial-first-workflow/preview-test.png"
+    alt="Preview Test"
+    style={{
+      border: "2px solid rgba(164,164,164,0.1)",
+      borderRadius: "16px"
+    }}
+  />
+
+  Nice, it worked!
+</Step>
+
+<Step title="Sixth Step - Publishing Your Workflow">
+  Hit the back button and go to the Chats section in the sidebar.
+
+  Choose the desired phone number from the dropdown menu. Click the<Icon icon='ellipsis-vertical'/> button and select *Publish Workflow*
+
+  Select your wokflow and hit *Save*.
+
+  <img
+    src="/guide/workflows/images/tutorial-first-workflow/publish-workflow.png"
+    alt="Publish Workflow"
+    style={{
+      border: "2px solid rgba(164,164,164,0.1)",
+      borderRadius: "16px"
+    }}
+  />
+
+  Congratulations! You have published a workflow for your users! You can now send a message to that phone number and see your workflow in production.
+
+  <img
+    src="/guide/workflows/images/tutorial-first-workflow/workflow-response.png"
+    alt="Publish Workflow"
+    style={{
+      border: "2px solid rgba(164,164,164,0.1)",
+      borderRadius: "16px"
+    }}
+  />
+</Step>
+
+</Steps>
