@@ -1,0 +1,77 @@
+---
+title: "Message Received"
+description: "Triggers the workflow on receiving a message on the published phone number."
+---
+
+The Message Received node is a trigger that provides complete information about message, contact and conversation associated to it.
+
+## Output Schema
+The output schema define the properties that will be available to the next nodes.
+
+<ResponseField name='message' type='object'>
+  Information about the message received
+  <Expandable title="properties">
+    <ResponseField name='id' type='string'>
+      Unique message identifier
+    </ResponseField>
+    <ResponseField name='whatsAppMessageId' type='string | null'>
+      Unique message identifier
+    </ResponseField>
+    <ResponseField name='type' type='string'>
+      Type of the message
+    </ResponseField>
+    <ResponseField name='role' type='string'>
+      Role of the message sender
+    </ResponseField>
+    <ResponseField name='content' type='string | null'>
+      Content of the message
+    </ResponseField>
+    <ResponseField name='from' type='string | null'>
+      WhatsApp Id of the sender of the message
+
+      In most cases will be the user's phone number.
+    </ResponseField>
+    <ResponseField name='to' type='string | null'>
+      WhatsApp Id of the recipient of the message
+
+      In most cases will be the WhatsApp Business Phone Number Id of the number that received the message.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name='contact' type='object'>
+  Contact information of the sender
+  <Expandable title="properties">
+    <ResponseField name='id' type='string'>
+      Unique contact identifier
+    </ResponseField>
+    <ResponseField name='waId' type='string'>
+      Contact WhatsApp Id
+    </ResponseField>
+    <ResponseField name='firstName' type='string | null | undefined'>
+      First name of the contact
+    </ResponseField>
+    <ResponseField name='lastName' type='string | null | undefined'>
+      Last name of the contact
+    </ResponseField>
+    <ResponseField name='email' type='string | null | undefined'>
+      Contact's email address
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name='conversation' type='object'>
+  Information about the conversation
+  <Expandable title="properties">
+    <ResponseField name='id' type='string'>
+      Unique conversation identifier
+    </ResponseField>
+    <ResponseField name='isFirstMessageFromContact' type='boolean | undefined'>
+      Flag that indicates if the message receives is the first message **from the user**.
+
+      Will be undefined if it fails to determine.
+
+      *Note*: even if there are assistant messages before the first user message, this flag will still be `true` on the first user message.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

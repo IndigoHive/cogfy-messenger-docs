@@ -7,7 +7,7 @@ Workflows are the heart of Cogfy's message handling, a low-code chatbot building
 Connect nodes with different functionalities, make agents decide which path to follow, generate replies, combine different agents, and much more.
 
 ## Workflow Types
-Workflow types refer to the different triggers to a workflow. You should have a workflow for each trigger typ
+Workflow types refer to the different triggers to a workflow.
 Currently Cogfy supports two types of workflows: Message Received and Data Exchange.
 
 - #### Message Received
@@ -16,7 +16,7 @@ Currently Cogfy supports two types of workflows: Message Received and Data Excha
 
 - #### Data Exchange
 
-  Data exchange workflows are triggered by a WhatsApp Flow Data Exchange
+  Data exchange workflows are triggered by a WhatsApp Flow Data Exchange.
 
 ## Nodes
 Nodes are workflows' building blocks.
@@ -30,19 +30,19 @@ As mentioned, trigger nodes are related to the workflow type. They are the start
 #### Core Nodes
 The most basic functionalities to create a complete chatbot.
 
-They include executing an [HTTP Request](), running [JavaScript Code](), using an [Assistant]() chat completion and sending different types of messages.
+They include executing an HTTP Request, running [JavaScript Code](guide/workflows/nodes/core/java-script-code-node), using an Assistant chat completion and sending different types of messages.
 
 #### Logic Nodes
-Conditionals and path routing. Currently Cogfy supprots one logic node: the [If Node]()
+Conditionals and path routing. Currently Cogfy supprots one logic node: the If Node.
 
 #### Action Nodes
-Perform actions inside Cogfy, like [Creating an Internal Message]() or [Updating a Contact]().
+Perform actions inside Cogfy, like Creating an Internal Message or Updating a Contact.
+
+## Edges
+Edges are what bind different nodes together. By clicking and dragging handles, you can connect two nodes, defining a workflow path and enabling interpolation.
 
 ## Requirements
 You need a **phone number** to publish a workflow and make it available to your users. Please refer to the [phone number documentation](/guide/phone-numbers/connect-phone-number) for more information.
-
-## Edges
-Edges are what bind different nodes together. By clicking and dragging handles, you can connect two nodes, defining a workflow path and enabling [interpolation]().
 
 <Note>You can still create workflows and test them in our sandbox preview.</Note>
 

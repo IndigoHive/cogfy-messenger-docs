@@ -65,7 +65,26 @@
             "group": "Workflows",
             "pages": [
               "guide/workflows/overview",
-              "guide/workflow/tutorial-first-workflow"
+              "guide/workflows/tutorial-first-workflow",
+              {
+                "group": "Nodes",
+                "expanded": true,
+                "pages": [
+                  {
+                    "group": "Triggers",
+                    "pages": [
+                      "guide/workflows/nodes/triggers/message-received-node",
+                      "guide/workflows/nodes/triggers/start-data-exchange-node"
+                    ]
+                  },
+                  {
+                    "group": "Core",
+                    "pages": [
+                      "guide/workflows/nodes/core/java-script-code-node"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ]

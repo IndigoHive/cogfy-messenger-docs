@@ -44,13 +44,13 @@ You need a **phone number** to publish a workflow and make it available to your 
 
 <Step title="Second Step - Building the Workflow">
 
-  On the sidebar, click on Assistant and add a [OpenAI Assistant Node]().
+  On the sidebar, click on Assistant and add a OpenAI Assistant Node.
 
   Connect the trigger node to the OpenAI Assistant Node by clicking and dragging the handles, therefore creating an edge.
 
   ---
 
-  On the sidebar, click on Send Message and add a [WhatsApp Text Message Node]().
+  On the sidebar, click on Send Message and add a WhatsApp Text Message Node.
 
   Connect the OpenAI Assistant Node to the WhatsApp Text Message Node.
 
@@ -103,7 +103,7 @@ You need a **phone number** to publish a workflow and make it available to your 
   Select the Send WhatsApp Text Message Node and click the edit button.
 
   - **Phone Number WhatsApp ID** is the WhatsApp ID of the phone number that will send that message. This field will list all your WhatsApp phone numbers connected to Cogfy.
-    You can leave it blank or choose *Use fallback value* to use the phone number that received the message in the trigger node, which is our case in this tutorial.
+    You can choose *Use fallback value* to use the phone number that received the message in the trigger node, which is our case in this tutorial.
     <Info>
       You can achieve the same result as *Use fallback value* by using the following in interpolation mode.
 
