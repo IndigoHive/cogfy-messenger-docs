@@ -3,10 +3,10 @@ title: "Message Received"
 description: "Triggers the workflow on receiving a message on the published phone number."
 ---
 
-The Message Received node is a trigger that provides complete information about message, contact and conversation associated to it.
+The Message Received node is a trigger that provides complete information about message, contact and conversation associated with it.
 
 ## Output Schema
-The output schema define the properties that will be available to the next nodes.
+The output schema defines the properties that will be available to the next nodes.
 
 <ResponseField name='message' type='object'>
   Information about the message received
@@ -67,7 +67,7 @@ The output schema define the properties that will be available to the next nodes
       Unique conversation identifier
     </ResponseField>
     <ResponseField name='isFirstMessageFromContact' type='boolean | undefined'>
-      Flag that indicates if the message receives is the first message **from the user**.
+      Flag that indicates if the message received is the first message **from the user**.
 
       Will be undefined if it fails to determine.
 

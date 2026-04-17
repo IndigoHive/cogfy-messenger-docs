@@ -29,7 +29,7 @@ You need a **phone number** to publish a workflow and make it available to your 
     }}
   />
 
-  At this point you shoud be in the workflow <u>sandbox</u> and the workflow has already been created.
+  At this point you should be in the workflow <u>sandbox</u> and the workflow has already been created.
 
   You should see something like this:
   <img
@@ -70,7 +70,7 @@ You need a **phone number** to publish a workflow and make it available to your 
   />
 </Step>
 
-<Step title="Third Step - Configuring the OpenAI Asistant Node">
+<Step title="Third Step - Configuring the OpenAI Assistant Node">
   Select the OpenAI Assistant Node (a green border shows which node is selected) and click the Edit button, or double click the node to open the Edit Node Dialog.
 
   > You can click the *Brackets* **\{}** button on each field to enter interpolation mode. With interpolation, we can access properties of previous nodes by using `{{$nodes['Node Name'].property}}`.
@@ -78,12 +78,12 @@ You need a **phone number** to publish a workflow and make it available to your 
   - **Input** is the message to be sent to the Assistant. For our OpenAI Assistant Node, we want the Message Received trigger content (e.g. the user message) to be the input.
   On the *Input* field activate interpolation mode and insert `{{$nodes['Message Received'].message.content}}`.
 
-  - **Model** is the AI brain that your users will be talking to, there are more powerfull and expensive models as well as simpler, cheap and blazing fast models. You can choose any model you like, in this tutorial we will be using `GPT-4o`.
+  - **Model** is the AI brain that your users will be talking to, there are more powerful and expensive models as well as simpler, cheap and blazing fast models. You can choose any model you like, in this tutorial we will be using `GPT-4o`.
 
   - **Instructions** are a way to control the Assistant to behave just how you'd like, you can make it kind, serious, make it give shorter answers or even make it talk like a pirate! You can give any instructions you want, in this tutorial we will just ask the AI Assistant to be kind... and to talk like a pirate... Ahoy!
 
   - **Max output tokens** will depend on the model you chose, if you choose a powerfull model, you should bump this setting up. Otherwise, you can take it a bit slower. In this tutorial, we will use a maximum of `400` tokens.
-    > Tokens are the base element for AI processes. Its how the AI segments your text before generating a response.
+    > Tokens are the base element for AI processes. It's how the AI segments your text before generating a response.
 
   After all this, your OpenAI Assistant Node should look something like this:
 
@@ -165,7 +165,7 @@ You need a **phone number** to publish a workflow and make it available to your 
 
   Choose the desired phone number from the dropdown menu. Click the<Icon icon='ellipsis-vertical'/> button and select *Publish Workflow*
 
-  Select your wokflow and hit *Save*.
+  Select your workflow and hit *Save*.
 
   <img
     src="/guide/workflows/images/tutorial-first-workflow/publish-workflow.png"
