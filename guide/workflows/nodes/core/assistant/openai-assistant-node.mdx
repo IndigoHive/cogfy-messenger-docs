@@ -8,13 +8,13 @@ Use chat completion powered by OpenAI to its full potential, including token con
 
 ## Input
 
-<ResponseField name='Input'>
+<ResponseField name='Input' type='string' required>
   The user's prompt — the actual input or question from the **user**.
 
   In most scenarios, you will want to interpolate this field with messages coming from the user (e.g., when using a Message Received trigger).
 </ResponseField>
 
-<ResponseField name='Model'>
+<ResponseField name='Model' type='string' required>
   The model is the AI “brain” your users will interact with.
 
   Currently, Cogfy Workflows supports the following OpenAI models:
@@ -26,7 +26,7 @@ Use chat completion powered by OpenAI to its full potential, including token con
   </Info>
 </ResponseField>
 
-<ResponseField name='Instructions'>
+<ResponseField name='Instructions' type='string'>
   Also known as the *system prompt*, this field is used to guide the AI’s overall behavior.
 
   Use it to define personality, boundaries, verbosity, and other behavioral aspects.
@@ -34,7 +34,7 @@ Use chat completion powered by OpenAI to its full potential, including token con
   This field is very important because it affects **everything the AI generates afterward**, so use it carefully.
 </ResponseField>
 
-<ResponseField name='Max Output Tokens' type='number'>
+<ResponseField name='Max Output Tokens' type='number' required>
   The upper limit on how many tokens the model can generate in its response.
 
   - If the limit is low → shorter, more concise responses
