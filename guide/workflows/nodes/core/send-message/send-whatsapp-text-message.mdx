@@ -1,0 +1,65 @@
+---
+title: "WhatsApp Text Message"
+description: "Text messaging using Meta's WhatsApp"
+icon: "message-square-text"
+---
+
+Sends a text message from and to a specific phone number using Meta's WhatsApp.
+
+## Input
+
+<ResponseField name='Phone Number WhatsApp ID' type='string' required>
+  WhatsApp Id of the number that will send the message. In practice, you will usually want to have this as your WhatsApp Business Account Phone Number's WhatsApp Id.
+
+  In case of a [Message Received](/guide/workflows/nodes/triggers/message-received-node) trigger node, you can use `Use fallback` to set this as the phone number that received the message in the trigger node.
+
+  The `Use fallback` option is equivalent to interpolating `{{$nodes['Message Received'].message.to}}`.
+</ResponseField>
+
+<ResponseField name='Recipient WhatsApp ID' type='string'>
+  WhatsApp Id of the phone number that will receive the message.
+
+  In most use cases of a [Message Received](/guide/workflows/nodes/triggers/message-received-node) trigger node, you will want to set this as the user's WhatsApp Id, that is who sent the message to the trigger node.
+
+  To achieve this result, you can leave this field **blank** or use interpolation mode with `{{$nodes['Message Received'].message.from}}`.
+</ResponseField>
+
+<ResponseField name='Message Content' type='string' required>
+  Content of the message to be sent.
+</ResponseField>
+
+## Output Schema
+
+Represents the delivery confirmation response returned by the Meta WhatsApp API after a message is successfully sent.
+
+<ResponseField name='messaging_product' type='string'>
+  Identifies the messaging platform.
+
+  Always returns `whatsapp`.
+</ResponseField>
+
+<ResponseField name='contacts' type='contact_object[]'>
+  A list of contacts that received the message.
+
+  Each contact includes the original input and the resolved WhatsApp ID.
+
+  <Expandable title="contact_object">
+    <ResponseField name='input' type='string'>
+      The phone number exactly as provided in the original request.
+    </ResponseField>
+
+    <ResponseField name='wa_id' type='string'>
+      The WhatsApp ID associated with the contact.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name='messages' type='message_object[]'>
+  A list of messages sent, including their unique identifiers.
+
+  <Expandable title="message_object">
+    <ResponseField name='id' type='string'>
+      The unique message ID assigned by WhatsApp (also known as `wamid`).
+    </ResponseField>
+  </Expandable>
+</ResponseField>

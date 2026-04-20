@@ -86,6 +86,12 @@
                         "pages": [
                           "guide/workflows/nodes/core/assistant/openai-assistant-node"
                         ]
+                      },
+                      {
+                        "group": "Send Message",
+                        "pages": [
+                          "guide/workflows/nodes/core/send-message/send-whatsapp-text-message"
+                        ]
                       }
                     ]
                   }
