@@ -80,7 +80,13 @@
                   {
                     "group": "Core",
                     "pages": [
-                      "guide/workflows/nodes/core/java-script-code-node"
+                      "guide/workflows/nodes/core/java-script-code-node",
+                      {
+                        "group": "Assistant",
+                        "pages": [
+                          "guide/workflows/nodes/core/assistant/openai-assistant-node"
+                        ]
+                      }
                     ]
                   }
                 ]
