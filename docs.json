@@ -94,6 +94,12 @@
                         ]
                       }
                     ]
+                  },
+                  {
+                    "group": "Logic",
+                    "pages": [
+                      "guide/workflows/nodes/logic/if-node"
+                    ]
                   }
                 ]
               }

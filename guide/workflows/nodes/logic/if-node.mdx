@@ -1,0 +1,32 @@
+---
+title: "If Node"
+description: "Conditional routing"
+icon: "git-branch"
+---
+
+The If Node has two output handles: `true` and `false`. The active path depends on the evaluated condition.
+
+## Input
+
+Use JavaScript syntax to define a condition.
+
+Example:
+```js
+4 + 5 === 9
+```
+will activate the `true` path.
+
+You can reference data from other nodes using interpolation:
+
+```js
+$nodes['Node Name'].property
+```
+
+## Output
+The result of the condition determines **which path the workflow will follow**.
+
+You can access the result of the If Node in subsequent nodes using:
+
+```js
+$nodes['If Node']
+```
