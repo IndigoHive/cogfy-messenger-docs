@@ -1,6 +1,9 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
+  "icons": {
+    "library": "lucide"
+  },
   "name": "Cogfy Messenger",
   "colors": {
     "primary": "#42B62B",
@@ -56,6 +59,50 @@
               "guide/assistants/creating-an-assistant",
               "guide/assistants/plugins",
               "guide/assistants/link-assistant-to-phone-number"
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "guide/workflows/overview",
+              "guide/workflows/tutorial-first-workflow",
+              {
+                "group": "Nodes",
+                "expanded": true,
+                "pages": [
+                  {
+                    "group": "Triggers",
+                    "pages": [
+                      "guide/workflows/nodes/triggers/message-received-node",
+                      "guide/workflows/nodes/triggers/start-data-exchange-node"
+                    ]
+                  },
+                  {
+                    "group": "Core",
+                    "pages": [
+                      "guide/workflows/nodes/core/java-script-code-node",
+                      {
+                        "group": "Assistant",
+                        "pages": [
+                          "guide/workflows/nodes/core/assistant/openai-assistant-node"
+                        ]
+                      },
+                      {
+                        "group": "Send Message",
+                        "pages": [
+                          "guide/workflows/nodes/core/send-message/send-whatsapp-text-message"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Logic",
+                    "pages": [
+                      "guide/workflows/nodes/logic/if-node"
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ]
@@ -177,15 +224,15 @@
   "navbar": {},
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {

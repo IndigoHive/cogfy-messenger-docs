@@ -1,0 +1,35 @@
+---
+title: "JavaScript Code"
+icon: "code"
+description: "Execute arbitrary Javascript code"
+---
+
+The JavaScript Code node is able to execute arbitrary, pure javascript code and provide its results to the next nodes.
+Currently this node does not accept any library imports and/or calls.
+
+## Input
+It's important to say that you can also interpolate data from previous nodes in the JavaScript Code node by using the following notation:
+
+```javascript
+$nodes['Node Name'].property
+```
+```javascript icon="square-js" lines Example
+// If you have a Message Received trigger node called 'Message Received',
+// you can do:
+
+if ($nodes['Message Received'].contact.firstName === 'Cogfy') {
+  return 'That is me!'
+} else {
+  return 'That is not me'
+}
+```
+
+
+## Output Schema
+The output schema defines the properties that will be available to the next nodes.
+
+<ResponseField name='result' type='any'>
+  The `result` field will be whatever type you put in your `return` statement.
+
+  In the example above, the `result` is of type `string`.
+</ResponseField>

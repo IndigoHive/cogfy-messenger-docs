@@ -1,0 +1,53 @@
+---
+title: "Overview"
+description: "Learn about Cogfy Workflows and how to manage them in Cogfy Messenger"
+---
+
+Workflows are the heart of Cogfy's message handling, a low-code chatbot building platform and seamless integration with Meta's WhatsApp.
+Connect nodes with different functionalities, make agents decide which path to follow, generate replies, combine different agents, and much more.
+
+## Workflow Types
+Workflow types refer to the different triggers to a workflow.
+Currently Cogfy supports two types of workflows: Message Received and Data Exchange.
+
+- #### Message Received
+
+  Message received workflows are triggered by any message the published workflow number receives.
+
+- #### Data Exchange
+
+  Data exchange workflows are triggered by a WhatsApp Flow Data Exchange.
+
+## Nodes
+Nodes are workflows' building blocks.
+<Info>
+This is a simple overview, for more information, go to the specific node page.
+</Info>
+
+#### Trigger Nodes
+As mentioned, trigger nodes are related to the workflow type. They are the starting point of your workflow.
+
+#### Core Nodes
+The most basic functionalities to create a complete chatbot.
+
+They include executing an HTTP Request, running [JavaScript Code](guide/workflows/nodes/core/java-script-code-node), using an Assistant chat completion and sending different types of messages.
+
+#### Logic Nodes
+Conditionals and path routing. Currently Cogfy supports one logic node: the If Node.
+
+#### Action Nodes
+Perform actions inside Cogfy, like Creating an Internal Message or Updating a Contact.
+
+## Edges
+Edges are what bind different nodes together. By clicking and dragging handles, you can connect two nodes, defining a workflow path and enabling interpolation.
+
+## Requirements
+You need a **phone number** to publish a workflow and make it available to your users. Please refer to the [phone number documentation](/guide/phone-numbers/connect-phone-number) for more information.
+
+<Note>You can still create workflows and test them in our sandbox preview.</Note>
+
+<CardGroup cols={2}>
+  <Card title="Create your first workflow" icon="workflow" href="/guide/workflows/tutorial-first-workflow">
+    Quickly create your first production ready workflow.
+  </Card>
+</CardGroup>
