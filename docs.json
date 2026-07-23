@@ -141,6 +141,13 @@
                 ]
               },
               {
+                "group": "Conversation sessions",
+                "expanded": true,
+                "pages": [
+                  "api-reference/endpoint/conversation-sessions/enqueue"
+                ]
+              },
+              {
                 "group": "Contacts",
                 "expanded": true,
                 "pages": [

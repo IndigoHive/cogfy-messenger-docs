@@ -1236,6 +1236,105 @@
         }
       }
     },
+    "/conversation-sessions/enqueue": {
+      "post": {
+        "summary": "Enqueue a conversation session",
+        "description": "Enqueues the open conversation session for a contact into a queue and persists the observation as transfer_observation.",
+        "tags": [
+          "Conversation sessions"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "waId",
+                  "phoneNumberWaId",
+                  "queueId",
+                  "observation"
+                ],
+                "properties": {
+                  "waId": {
+                    "type": "string",
+                    "description": "Contact WhatsApp ID"
+                  },
+                  "phoneNumberWaId": {
+                    "type": "string",
+                    "description": "Business phone WhatsApp ID"
+                  },
+                  "queueId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "observation": {
+                    "type": "string",
+                    "maxLength": 400,
+                    "description": "Observation persisted on the session as transfer_observation"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Session enqueued successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "conversationId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "status": {
+                      "type": "string"
+                    },
+                    "currentQueueId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "nullable": true
+                    },
+                    "enqueueDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true
+                    },
+                    "ticketId": {
+                      "type": "integer",
+                      "nullable": true
+                    },
+                    "transferObservation": {
+                      "type": "string",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Queue, conversation, or open session not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/messages/audio": {
       "post": {
         "summary": "Send audio message",
