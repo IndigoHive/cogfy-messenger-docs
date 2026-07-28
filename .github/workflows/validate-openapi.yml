@@ -1,0 +1,21 @@
+name: Validate OpenAPI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "api-reference/openapi.json"
+      - "docs.json"
+  pull_request:
+    paths:
+      - "api-reference/openapi.json"
+      - "docs.json"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint OpenAPI spec
+        run: npx --yes @redocly/cli lint api-reference/openapi.json
