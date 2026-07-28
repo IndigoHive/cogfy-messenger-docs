@@ -159,17 +159,6 @@
                 ]
               },
               {
-                "group": "Embeddings",
-                "expanded": true,
-                "pages": [
-                  "api-reference/endpoint/embeddings/delete",
-                  "api-reference/endpoint/embeddings/get-by-id",
-                  "api-reference/endpoint/embeddings/create",
-                  "api-reference/endpoint/embeddings/get-from-source",
-                  "api-reference/endpoint/embeddings/create-question-and-answers"
-                ]
-              },
-              {
                 "group": "Messages",
                 "expanded": true,
                 "pages": [

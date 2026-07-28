@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.0",
+  "openapi": "3.1.0",
   "info": {
     "title": "Cogfy Messenger Public API",
     "version": "1.0.0",
@@ -94,13 +94,22 @@
         }
       }
     },
-    "/conversations/:conversationId/messages": {
+    "/conversations/{conversationId}/messages": {
       "get": {
         "summary": "Get all messages in a conversation",
         "tags": [
           "Conversations"
         ],
         "parameters": [
+          {
+            "in": "path",
+            "name": "conversationId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Conversation ID"
+          },
           {
             "in": "query",
             "name": "cursor",
@@ -221,13 +230,17 @@
                       "type": "object",
                       "properties": {
                         "next": {
-                          "type": "string",
-                          "nullable": true,
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "Cursor for newer messages"
                         },
                         "prev": {
-                          "type": "string",
-                          "nullable": true,
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "Cursor for older messages"
                         }
                       }
@@ -238,91 +251,7 @@
             }
           }
         }
-      }
-    },
-    "/conversations/": {
-      "get": {
-        "summary": "Get all conversations",
-        "tags": [
-          "Conversations"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "cursor",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Cursor for pagination"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of conversations",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "workspaceId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "phoneNumberId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "recipientId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "assigneeId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "lastMessageId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "createDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "serviceWindowExpireDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        }
-                      }
-                    },
-                    "cursors": {
-                      "type": "object",
-                      "properties": {
-                        "next": {
-                          "type": "string",
-                          "nullable": true,
-                          "description": "Cursor for the next page"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/conversations/{conversationId}/messages": {
+      },
       "post": {
         "summary": "Send a message to a conversation",
         "tags": [
@@ -416,6 +345,90 @@
           },
           "500": {
             "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/conversations": {
+      "get": {
+        "summary": "Get all conversations",
+        "tags": [
+          "Conversations"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cursor for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of conversations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "workspaceId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "phoneNumberId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "recipientId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "assigneeId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "lastMessageId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "createDate": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "serviceWindowExpireDate": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    },
+                    "cursors": {
+                      "type": "object",
+                      "properties": {
+                        "next": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "description": "Cursor for the next page"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1761,6 +1774,18 @@
         ],
         "summary": "Update a contact",
         "description": "Updates the given fields of a contact. Omitted fields are left untouched; sending `null` clears the field.\n\nTags are linked by `id` or `name` and must already exist in the workspace — unknown tags are ignored. Use `PATCH /contacts/{contactId}/tags` to create tags on demand.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2034,6 +2059,18 @@
         ],
         "summary": "Update the tags of a contact",
         "description": "Links and unlinks tags of a contact. Each tag is referenced by `id` or by `name`.\n\nUnlike the `tags` field of `PATCH /contacts/{contactId}`, a tag referenced by `name` is created when it does not exist yet, and referencing an `id` that does not exist in the workspace returns `404`.\n\nWhen `set` is provided it replaces all tags of the contact and `add`/`remove` are ignored. At most 10 tags per field.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3275,9 +3312,7 @@
                             "parameters": {
                               "description": "Parameters that fill the component placeholders",
                               "type": "array",
-                              "items": {
-
-                              }
+                              "items": {}
                             },
                             "cards": {
                               "description": "Cards of a carousel template",
@@ -3310,9 +3345,7 @@
                                         "parameters": {
                                           "description": "Parameters that fill the component placeholders",
                                           "type": "array",
-                                          "items": {
-
-                                          }
+                                          "items": {}
                                         }
                                       },
                                       "required": [
@@ -4034,12 +4067,8 @@
                               },
                               "flow_action_payload": {
                                 "type": "object",
-                                "properties": {
-
-                                },
-                                "additionalProperties": {
-
-                                }
+                                "properties": {},
+                                "additionalProperties": {}
                               }
                             },
                             "required": [
@@ -5140,9 +5169,7 @@
                           "propertyNames": {
                             "type": "string"
                           },
-                          "additionalProperties": {
-
-                          }
+                          "additionalProperties": {}
                         },
                         {
                           "type": "null"
@@ -5549,6 +5576,5 @@
         }
       }
     }
-  },
-  "tags": []
+  }
 }
