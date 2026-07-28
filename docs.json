@@ -31,8 +31,7 @@
               "guide/fundamentals/tags",
               "guide/fundamentals/api-keys",
               "guide/fundamentals/contacts",
-              "guide/fundamentals/analytics",
-              "guide/fundamentals/usage"
+              "guide/fundamentals/analytics"
             ]
           },
           {
@@ -41,24 +40,6 @@
               "guide/phone-numbers/connect-phone-number",
               "guide/phone-numbers/phone-number-conversations",
               "guide/phone-numbers/whatsapp-phone-profile-settings"
-            ]
-          },
-          {
-            "group": "Engines",
-            "pages": [
-              "guide/engines/overview",
-              "guide/engines/workflow",
-              "guide/engines/cogs",
-              "guide/engines/engine-assistants"
-            ]
-          },
-          {
-            "group": "Assistants",
-            "pages": [
-              "guide/assistants/overview",
-              "guide/assistants/creating-an-assistant",
-              "guide/assistants/plugins",
-              "guide/assistants/link-assistant-to-phone-number"
             ]
           },
           {
@@ -73,8 +54,7 @@
                   {
                     "group": "Triggers",
                     "pages": [
-                      "guide/workflows/nodes/triggers/message-received-node",
-                      "guide/workflows/nodes/triggers/start-data-exchange-node"
+                      "guide/workflows/nodes/triggers/message-received-node"
                     ]
                   },
                   {
