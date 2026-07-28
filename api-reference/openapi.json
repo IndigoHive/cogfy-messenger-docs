@@ -16,7 +16,7 @@
   },
   "security": [
     {
-      "ApiKeyAuth": {}
+      "ApiKeyAuth": []
     }
   ],
   "servers": [
@@ -5576,6 +5576,5 @@
         }
       }
     }
-  },
-  "tags": {}
+  }
 }
