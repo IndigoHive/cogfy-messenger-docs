@@ -107,7 +107,10 @@
                   "api-reference/endpoint/broadcasts/create",
                   "api-reference/endpoint/broadcasts/list",
                   "api-reference/endpoint/broadcasts/get-by-id",
-                  "api-reference/endpoint/broadcasts/send"
+                  "api-reference/endpoint/broadcasts/send",
+                  "api-reference/endpoint/broadcasts/pause",
+                  "api-reference/endpoint/broadcasts/resume",
+                  "api-reference/endpoint/broadcasts/get-messages"
                 ]
               },
               {
@@ -135,6 +138,7 @@
                   "api-reference/endpoint/contacts/delete",
                   "api-reference/endpoint/contacts/get-by-id",
                   "api-reference/endpoint/contacts/update-by-id",
+                  "api-reference/endpoint/contacts/update-tags",
                   "api-reference/endpoint/contacts/get"
                 ]
               },
@@ -151,13 +155,16 @@
                   "api-reference/endpoint/messages/send-interactive-flow",
                   "api-reference/endpoint/messages/send-interactive-list",
                   "api-reference/endpoint/messages/send-interactive-order-details",
+                  "api-reference/endpoint/messages/send-interactive-carousel",
                   "api-reference/endpoint/messages/send-interactive-order-status",
                   "api-reference/endpoint/messages/send-location",
                   "api-reference/endpoint/messages/send-reaction",
                   "api-reference/endpoint/messages/send-sticker",
                   "api-reference/endpoint/messages/send-template",
                   "api-reference/endpoint/messages/send-text",
-                  "api-reference/endpoint/messages/send-video"
+                  "api-reference/endpoint/messages/send-video",
+                  "api-reference/endpoint/messages/get-by-id",
+                  "api-reference/endpoint/messages/upload-media"
                 ]
               },
               {
