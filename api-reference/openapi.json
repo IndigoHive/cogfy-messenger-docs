@@ -94,22 +94,13 @@
         }
       }
     },
-    "/conversations/{conversationId}/messages": {
+    "/conversations/:conversationId/messages": {
       "get": {
         "summary": "Get all messages in a conversation",
         "tags": [
           "Conversations"
         ],
         "parameters": [
-          {
-            "in": "path",
-            "name": "conversationId",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "description": "Conversation ID"
-          },
           {
             "in": "query",
             "name": "cursor",
@@ -230,17 +221,11 @@
                       "type": "object",
                       "properties": {
                         "next": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
+                          "type": ["string", "null"],
                           "description": "Cursor for newer messages"
                         },
                         "prev": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
+                          "type": ["string", "null"],
                           "description": "Cursor for older messages"
                         }
                       }
@@ -251,7 +236,90 @@
             }
           }
         }
-      },
+      }
+    },
+    "/conversations": {
+      "get": {
+        "summary": "Get all conversations",
+        "tags": [
+          "Conversations"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cursor for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of conversations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "workspaceId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "phoneNumberId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "recipientId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "assigneeId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "lastMessageId": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "createDate": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "serviceWindowExpireDate": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    },
+                    "cursors": {
+                      "type": "object",
+                      "properties": {
+                        "next": {
+                          "type": ["string", "null"],
+                          "description": "Cursor for the next page"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/conversations/{conversationId}/messages": {
       "post": {
         "summary": "Send a message to a conversation",
         "tags": [
@@ -345,90 +413,6 @@
           },
           "500": {
             "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/conversations": {
-      "get": {
-        "summary": "Get all conversations",
-        "tags": [
-          "Conversations"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "cursor",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Cursor for pagination"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of conversations",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "workspaceId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "phoneNumberId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "recipientId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "assigneeId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "lastMessageId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "createDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "serviceWindowExpireDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        }
-                      }
-                    },
-                    "cursors": {
-                      "type": "object",
-                      "properties": {
-                        "next": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "description": "Cursor for the next page"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -935,6 +919,32 @@
                       "type": "string",
                       "format": "date-time",
                       "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                    },
+                    "processedContacts": {
+                      "description": "Number of contacts processed. Only returned when creating from an explicit contacts list",
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "totalBatches": {
+                      "description": "Number of batches the contacts were split into. Only returned when creating from an explicit contacts list",
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
                     }
                   },
                   "required": [
@@ -1057,6 +1067,293 @@
           },
           "409": {
             "description": "Broadcast is not in a status that can be sent"
+          }
+        }
+      }
+    },
+    "/broadcasts/{broadcastId}/pause": {
+      "post": {
+        "tags": [
+          "Broadcasts"
+        ],
+        "summary": "Pause a sending broadcast",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "broadcastId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Broadcast paused successfully"
+          },
+          "404": {
+            "description": "Broadcast not found"
+          },
+          "409": {
+            "description": "Broadcast is not in sending status"
+          }
+        }
+      }
+    },
+    "/broadcasts/{broadcastId}/resume": {
+      "post": {
+        "tags": [
+          "Broadcasts"
+        ],
+        "summary": "Resume a paused broadcast",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "broadcastId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Broadcast resumed successfully"
+          },
+          "404": {
+            "description": "Broadcast not found"
+          },
+          "409": {
+            "description": "Broadcast is not in paused status"
+          }
+        }
+      }
+    },
+    "/broadcasts/{broadcastId}/messages": {
+      "get": {
+        "tags": [
+          "Broadcasts"
+        ],
+        "summary": "List messages of a broadcast",
+        "description": "Returns a paginated list of messages for a specific broadcast. Use the `status` query parameter to filter by message status.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "broadcastId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "description": "Opaque cursor returned by a previous call, used to fetch the next page",
+              "type": "string"
+            },
+            "description": "Opaque cursor returned by a previous call, used to fetch the next page"
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "description": "Filter by broadcast message status.\n\nPossible values:\n- `pending` — Message queued, not yet sent to WhatsApp.\n- `sent` — Message sent to WhatsApp, awaiting delivery confirmation.\n- `delivered` — WhatsApp confirmed the message was delivered to the recipient.\n- `read` — WhatsApp confirmed the recipient read the message.\n- `failed` — The send attempt or WhatsApp delivery failed.\n- `skipped` — The recipient was skipped (e.g., marketing opt-out).",
+              "type": "string"
+            },
+            "description": "Filter by broadcast message status.\n\nPossible values:\n- `pending` — Message queued, not yet sent to WhatsApp.\n- `sent` — Message sent to WhatsApp, awaiting delivery confirmation.\n- `delivered` — WhatsApp confirmed the message was delivered to the recipient.\n- `read` — WhatsApp confirmed the recipient read the message.\n- `failed` — The send attempt or WhatsApp delivery failed.\n- `skipped` — The recipient was skipped (e.g., marketing opt-out)."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A paginated list of broadcast messages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "contactPhoneNumber": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "status": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Status of the broadcast message.\n\nPossible values:\n- `pending` — Message queued, not yet sent to WhatsApp.\n- `sent` — Message sent to WhatsApp, awaiting delivery confirmation.\n- `delivered` — WhatsApp confirmed the message was delivered to the recipient.\n- `read` — WhatsApp confirmed the recipient read the message.\n- `failed` — The send attempt or WhatsApp delivery failed.\n- `skipped` — The recipient was skipped (e.g., marketing opt-out)."
+                          },
+                          "batchNumber": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": -9007199254740991,
+                                "maximum": 9007199254740991
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "messageId": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "uuid",
+                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "content": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "type": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "from": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "to": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "sendDate": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "deliverDate": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "readDate": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "createDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "contactPhoneNumber",
+                          "status",
+                          "batchNumber",
+                          "messageId",
+                          "content",
+                          "type",
+                          "from",
+                          "to",
+                          "sendDate",
+                          "deliverDate",
+                          "readDate",
+                          "createDate"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "cursors": {
+                      "type": "object",
+                      "properties": {
+                        "next": {
+                          "description": "Opaque cursor to fetch the next page. Absent when there are no more results",
+                          "type": "string"
+                        }
+                      },
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Broadcast not found"
           }
         }
       }
@@ -2419,13 +2716,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -2506,13 +2887,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -2593,13 +3058,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -2676,13 +3225,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -2767,13 +3400,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -2850,13 +3567,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -2945,13 +3746,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -3154,13 +4039,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -3236,13 +4205,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data or missing `reaction.message_id`"
+            "description": "Bad request, invalid input data or missing `reaction.message_id`",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Reacted message or sender phone number not found"
+            "description": "Reacted message or sender phone number not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -3312,7 +4365,9 @@
                             "parameters": {
                               "description": "Parameters that fill the component placeholders",
                               "type": "array",
-                              "items": {}
+                              "items": {
+
+                              }
                             },
                             "cards": {
                               "description": "Cards of a carousel template",
@@ -3345,7 +4400,9 @@
                                         "parameters": {
                                           "description": "Parameters that fill the component placeholders",
                                           "type": "array",
-                                          "items": {}
+                                          "items": {
+
+                                          }
                                         }
                                       },
                                       "required": [
@@ -3462,13 +4519,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -3624,13 +4765,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -3780,13 +5005,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -3952,13 +5261,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -4067,8 +5460,16 @@
                               },
                               "flow_action_payload": {
                                 "type": "object",
-                                "properties": {},
-                                "additionalProperties": {}
+                                "properties": {
+
+                                },
+                                "additionalProperties": {
+
+                                }
+                              },
+                              "flow_token": {
+                                "type": "string",
+                                "description": "Token used to identify the flow"
                               }
                             },
                             "required": [
@@ -4121,13 +5522,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -4374,13 +5859,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -4827,13 +6396,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -5016,13 +6669,97 @@
             }
           },
           "400": {
-            "description": "Bad request, invalid input data"
+            "description": "Bad request — invalid input data, or the message was rejected by the WhatsApp Cloud API (e.g. invalid template)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Sender phone number not found or not linked to a WhatsApp Business Account"
+            "description": "Sender phone number not found or not linked to a WhatsApp Business Account",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
@@ -5169,7 +6906,9 @@
                           "propertyNames": {
                             "type": "string"
                           },
-                          "additionalProperties": {}
+                          "additionalProperties": {
+
+                          }
                         },
                         {
                           "type": "null"
@@ -5236,10 +6975,66 @@
             }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           },
           "404": {
-            "description": "Message not found"
+            "description": "Message not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "number"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "description": "WhatsApp Cloud API error code, present when the request was rejected by Meta (e.g. invalid template, rate limit)",
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title",
+                    "detail"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       }
