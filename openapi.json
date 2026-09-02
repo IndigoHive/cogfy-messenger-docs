@@ -25,7 +25,7 @@
       "description": "Production server"
     },
     {
-      "url": "http://localhost:47566",
+      "url": "http://localhost:3100",
       "description": "Local server"
     }
   ],
@@ -147,234 +147,6 @@
           },
           "404": {
             "description": "Conversation not found"
-          }
-        }
-      }
-    },
-    "/conversations/:conversationId/messages": {
-      "get": {
-        "summary": "Get all messages in a conversation",
-        "tags": [
-          "Conversations"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "cursor",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Cursor for pagination"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of messages",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "workspaceId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "conversationId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "assistantId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "userId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "broadcastId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "whatsappMessageId": {
-                            "type": "string"
-                          },
-                          "from": {
-                            "type": "string"
-                          },
-                          "to": {
-                            "type": "string"
-                          },
-                          "role": {
-                            "type": "string"
-                          },
-                          "status": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
-                          },
-                          "content": {
-                            "type": "string"
-                          },
-                          "contentData": {
-                            "type": "object"
-                          },
-                          "toolCallId": {
-                            "type": "string"
-                          },
-                          "toolCalls": {
-                            "type": "string"
-                          },
-                          "data": {
-                            "type": "string"
-                          },
-                          "contextId": {
-                            "type": "string"
-                          },
-                          "contextFrom": {
-                            "type": "string"
-                          },
-                          "createDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "sendDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "deliverDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "readDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "promptTokens": {
-                            "type": "string"
-                          },
-                          "completionTokens": {
-                            "type": "string"
-                          },
-                          "order": {
-                            "type": "number"
-                          },
-                          "traceId": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    "cursors": {
-                      "type": "object",
-                      "properties": {
-                        "next": {
-                          "type": "string",
-                          "nullable": true,
-                          "description": "Cursor for newer messages"
-                        },
-                        "prev": {
-                          "type": "string",
-                          "nullable": true,
-                          "description": "Cursor for older messages"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/conversations/": {
-      "get": {
-        "summary": "Get all conversations",
-        "tags": [
-          "Conversations"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "cursor",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Cursor for pagination"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of conversations",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "workspaceId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "phoneNumberId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "recipientId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "assigneeId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "lastMessageId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "createDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "serviceWindowExpireDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        }
-                      }
-                    },
-                    "cursors": {
-                      "type": "object",
-                      "properties": {
-                        "next": {
-                          "type": "string",
-                          "nullable": true,
-                          "description": "Cursor for the next page"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -543,9 +315,7 @@
                           },
                           "contentData": {
                             "anyOf": [
-                              {
-
-                              },
+                              {},
                               {
                                 "type": "null"
                               }
@@ -565,9 +335,7 @@
                             "anyOf": [
                               {
                                 "type": "array",
-                                "items": {
-
-                                }
+                                "items": {}
                               },
                               {
                                 "type": "null"
@@ -576,9 +344,7 @@
                           },
                           "data": {
                             "anyOf": [
-                              {
-
-                              },
+                              {},
                               {
                                 "type": "null"
                               }
@@ -2549,6 +2315,18 @@
         ],
         "summary": "Update a contact",
         "description": "Updates the given fields of a contact. Omitted fields are left untouched; sending `null` clears the field.\n\nTags are linked by `id` or `name` and must already exist in the workspace — unknown tags are ignored. Use `PATCH /contacts/{contactId}/tags` to create tags on demand.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2822,6 +2600,18 @@
         ],
         "summary": "Update the tags of a contact",
         "description": "Links and unlinks tags of a contact. Each tag is referenced by `id` or by `name`.\n\nUnlike the `tags` field of `PATCH /contacts/{contactId}`, a tag referenced by `name` is created when it does not exist yet, and referencing an `id` that does not exist in the workspace returns `404`.\n\nWhen `set` is provided it replaces all tags of the contact and `add`/`remove` are ignored. At most 10 tags per field.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -5020,9 +4810,7 @@
                             "parameters": {
                               "description": "Parameters that fill the component placeholders",
                               "type": "array",
-                              "items": {
-
-                              }
+                              "items": {}
                             },
                             "cards": {
                               "description": "Cards of a carousel template",
@@ -5055,9 +4843,7 @@
                                         "parameters": {
                                           "description": "Parameters that fill the component placeholders",
                                           "type": "array",
-                                          "items": {
-
-                                          }
+                                          "items": {}
                                         }
                                       },
                                       "required": [
@@ -6132,12 +5918,8 @@
                               },
                               "flow_action_payload": {
                                 "type": "object",
-                                "properties": {
-
-                                },
-                                "additionalProperties": {
-
-                                }
+                                "properties": {},
+                                "additionalProperties": {}
                               },
                               "flow_token": {
                                 "type": "string",
@@ -7588,9 +7370,7 @@
                           "propertyNames": {
                             "type": "string"
                           },
-                          "additionalProperties": {
-
-                          }
+                          "additionalProperties": {}
                         },
                         {
                           "type": "null"
