@@ -32,23 +32,25 @@
   "paths": {
     "/conversations/{conversationId}": {
       "get": {
-        "summary": "Get a conversation by ID",
         "tags": [
           "Conversations"
         ],
+        "summary": "Get a conversation by id",
         "parameters": [
           {
             "in": "path",
             "name": "conversationId",
-            "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
           }
         ],
         "responses": {
           "200": {
-            "description": "A contact",
+            "description": "Conversation details",
             "content": {
               "application/json": {
                 "schema": {
@@ -56,284 +58,486 @@
                   "properties": {
                     "id": {
                       "type": "string",
-                      "format": "uuid"
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                     },
                     "workspaceId": {
                       "type": "string",
-                      "format": "uuid"
+                      "format": "uuid",
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                     },
                     "phoneNumberId": {
-                      "type": "string",
-                      "format": "uuid"
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
                     },
                     "recipientId": {
-                      "type": "string",
-                      "format": "uuid"
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
                     },
                     "assigneeId": {
-                      "type": "string",
-                      "format": "uuid"
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
                     },
                     "lastMessageId": {
-                      "type": "string",
-                      "format": "uuid"
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
                     },
                     "createDate": {
                       "type": "string",
-                      "format": "date-time"
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
                     },
                     "serviceWindowExpireDate": {
-                      "type": "string",
-                      "format": "date-time"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/conversations/:conversationId/messages": {
-      "get": {
-        "summary": "Get all messages in a conversation",
-        "tags": [
-          "Conversations"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "cursor",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Cursor for pagination"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of messages",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "workspaceId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "conversationId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "assistantId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "userId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "broadcastId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "whatsappMessageId": {
-                            "type": "string"
-                          },
-                          "from": {
-                            "type": "string"
-                          },
-                          "to": {
-                            "type": "string"
-                          },
-                          "role": {
-                            "type": "string"
-                          },
-                          "status": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
-                          },
-                          "content": {
-                            "type": "string"
-                          },
-                          "contentData": {
-                            "type": "object"
-                          },
-                          "toolCallId": {
-                            "type": "string"
-                          },
-                          "toolCalls": {
-                            "type": "string"
-                          },
-                          "data": {
-                            "type": "string"
-                          },
-                          "contextId": {
-                            "type": "string"
-                          },
-                          "contextFrom": {
-                            "type": "string"
-                          },
-                          "createDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "sendDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "deliverDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "readDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "promptTokens": {
-                            "type": "string"
-                          },
-                          "completionTokens": {
-                            "type": "string"
-                          },
-                          "order": {
-                            "type": "number"
-                          },
-                          "traceId": {
-                            "type": "string"
-                          }
-                        }
-                      }
-                    },
-                    "cursors": {
-                      "type": "object",
-                      "properties": {
-                        "next": {
-                          "type": ["string", "null"],
-                          "description": "Cursor for newer messages"
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "format": "date-time",
+                          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
                         },
-                        "prev": {
-                          "type": ["string", "null"],
-                          "description": "Cursor for older messages"
+                        {
+                          "type": "null"
                         }
-                      }
+                      ]
                     }
-                  }
+                  },
+                  "required": [
+                    "id",
+                    "workspaceId",
+                    "phoneNumberId",
+                    "recipientId",
+                    "assigneeId",
+                    "lastMessageId",
+                    "createDate",
+                    "serviceWindowExpireDate"
+                  ],
+                  "additionalProperties": false
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/conversations": {
-      "get": {
-        "summary": "Get all conversations",
-        "tags": [
-          "Conversations"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "cursor",
-            "schema": {
-              "type": "string"
-            },
-            "description": "Cursor for pagination"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "A list of conversations",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "workspaceId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "phoneNumberId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "recipientId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "assigneeId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "lastMessageId": {
-                            "type": "string",
-                            "format": "uuid"
-                          },
-                          "createDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "serviceWindowExpireDate": {
-                            "type": "string",
-                            "format": "date-time"
-                          }
-                        }
-                      }
-                    },
-                    "cursors": {
-                      "type": "object",
-                      "properties": {
-                        "next": {
-                          "type": ["string", "null"],
-                          "description": "Cursor for the next page"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+          },
+          "400": {
+            "description": "Bad request, invalid conversation id"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       }
     },
     "/conversations/{conversationId}/messages": {
-      "post": {
-        "summary": "Send a message to a conversation",
+      "get": {
         "tags": [
           "Conversations"
         ],
+        "summary": "List conversation messages",
+        "description": "Returns up to 50 messages for a conversation.\n\nUse `cursor` from `cursors.next` to page forward (newer messages) or from `cursors.prev` to page backward (older messages).",
         "parameters": [
           {
             "in": "path",
             "name": "conversationId",
             "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "description": "Opaque cursor returned by a previous call, used to fetch newer or older messages",
               "type": "string"
             },
-            "required": true,
-            "description": "Conversation ID"
+            "description": "Opaque cursor returned by a previous call, used to fetch newer or older messages"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of messages in the conversation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "workspaceId": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "conversationId": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "uuid",
+                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "assistantId": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "uuid",
+                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "userId": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "uuid",
+                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "broadcastId": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "uuid",
+                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "whatsappMessageId": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "from": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "to": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "role": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "type": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "content": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "contentData": {
+                            "anyOf": [
+                              {},
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "toolCallId": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "toolCalls": {
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {}
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "data": {
+                            "anyOf": [
+                              {},
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "contextId": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "contextFrom": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "createDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                          },
+                          "sendDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                          },
+                          "deliverDate": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "readDate": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "promptTokens": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "completionTokens": {
+                            "anyOf": [
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "order": {
+                            "type": "number"
+                          },
+                          "traceId": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "uuid",
+                                "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "workspaceId",
+                          "conversationId",
+                          "assistantId",
+                          "userId",
+                          "broadcastId",
+                          "whatsappMessageId",
+                          "from",
+                          "to",
+                          "role",
+                          "status",
+                          "type",
+                          "content",
+                          "contentData",
+                          "toolCallId",
+                          "toolCalls",
+                          "data",
+                          "contextId",
+                          "contextFrom",
+                          "createDate",
+                          "sendDate",
+                          "deliverDate",
+                          "readDate",
+                          "promptTokens",
+                          "completionTokens",
+                          "order",
+                          "traceId"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "cursors": {
+                      "type": "object",
+                      "properties": {
+                        "next": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "description": "Opaque cursor for newer messages"
+                        },
+                        "prev": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "description": "Opaque cursor for older messages"
+                        }
+                      },
+                      "required": [
+                        "next",
+                        "prev"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "cursors"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid cursor or conversation id"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Send a message to a conversation",
+        "description": "Sends a text, image, or document message to the conversation recipient.\n\nFor `text`, `content` is required. For `image` and `document`, `media` is required and the file is uploaded to WhatsApp before sending.\n\nThis endpoint requires an open service window for the conversation.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "conversationId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "required": true
           }
         ],
         "requestBody": {
@@ -344,8 +548,15 @@
                 "type": "object",
                 "properties": {
                   "content": {
-                    "type": "string",
-                    "description": "Message content. Required for text messages, optional for media messages."
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "maxLength": 4096
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
                   },
                   "type": {
                     "type": "string",
@@ -353,30 +564,65 @@
                       "text",
                       "image",
                       "document"
-                    ],
-                    "description": "Message type"
+                    ]
                   },
                   "media": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string",
-                        "description": "Media file name. Optional."
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "mimeType": {
+                            "type": "string"
+                          },
+                          "base64": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "mimeType",
+                          "base64"
+                        ]
                       },
-                      "mimeType": {
-                        "type": "string",
-                        "description": "Media MIME type. Required for media messages."
-                      },
-                      "base64": {
-                        "type": "string",
-                        "description": "Media file content in base64 encoding. Required for media messages."
+                      {
+                        "type": "null"
                       }
-                    }
+                    ]
                   }
                 },
                 "required": [
                   "type"
                 ]
+              },
+              "examples": {
+                "text": {
+                  "summary": "Send a text message",
+                  "value": {
+                    "type": "text",
+                    "content": "Hello!"
+                  }
+                },
+                "image": {
+                  "summary": "Send an image message",
+                  "value": {
+                    "type": "image",
+                    "content": "See this image",
+                    "media": {
+                      "name": "photo.jpg",
+                      "mimeType": "image/jpeg",
+                      "base64": "..."
+                    }
+                  }
+                }
               }
             }
           }
@@ -392,27 +638,25 @@
                     "id": {
                       "type": "string",
                       "format": "uuid",
-                      "description": "Message ID"
+                      "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
                     }
-                  }
+                  },
+                  "required": [
+                    "id"
+                  ],
+                  "additionalProperties": false
                 }
               }
             }
           },
           "400": {
-            "description": "Bad request"
+            "description": "Bad request, invalid input data or expired service window"
           },
           "401": {
             "description": "Unauthorized"
           },
-          "403": {
-            "description": "Forbidden"
-          },
           "404": {
-            "description": "Conversation not found"
-          },
-          "500": {
-            "description": "Internal server error"
+            "description": "Conversation or WhatsApp phone number not found"
           }
         }
       }
@@ -2489,6 +2733,166 @@
         }
       }
     },
+    "/conversations": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "List conversations",
+        "description": "Lists the conversations of a phone number, 50 per page.\n\nWhen more results are available, `cursors.next` is returned. Pass it back as `cursor` to fetch the next page.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "description": "Opaque cursor returned by a previous call, used to fetch the next page",
+              "type": "string"
+            },
+            "description": "Opaque cursor returned by a previous call, used to fetch the next page"
+          },
+          {
+            "in": "query",
+            "name": "phoneNumberId",
+            "schema": {
+              "description": "WhatsApp phone number id. Required on the first page when cursor is not provided",
+              "type": "string"
+            },
+            "description": "WhatsApp phone number id. Required on the first page when cursor is not provided"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of conversations",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "workspaceId": {
+                            "type": "string",
+                            "format": "uuid",
+                            "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                          },
+                          "phoneNumberId": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "recipientId": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "assigneeId": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "lastMessageId": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "createDate": {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                          },
+                          "serviceWindowExpireDate": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "format": "date-time",
+                                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "workspaceId",
+                          "phoneNumberId",
+                          "recipientId",
+                          "assigneeId",
+                          "lastMessageId",
+                          "createDate",
+                          "serviceWindowExpireDate"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "cursors": {
+                      "type": "object",
+                      "properties": {
+                        "next": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "description": "Opaque cursor to fetch the next page"
+                        }
+                      },
+                      "required": [
+                        "next"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "cursors"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request, invalid query parameters"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/conversation-sessions/enqueue": {
       "post": {
         "tags": [
@@ -2653,9 +3057,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "text": {
                     "type": "object",
@@ -2673,7 +3082,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "text"
                 ]
               },
@@ -2831,9 +3239,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "image": {
                     "description": "The image to send. Provide either `id` or `link`",
@@ -2856,8 +3269,7 @@
                   }
                 },
                 "required": [
-                  "from",
-                  "to"
+                  "from"
                 ]
               }
             }
@@ -3002,9 +3414,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "video": {
                     "description": "The video to send. Provide either `id` or `link`",
@@ -3027,8 +3444,7 @@
                   }
                 },
                 "required": [
-                  "from",
-                  "to"
+                  "from"
                 ]
               }
             }
@@ -3173,9 +3589,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "audio": {
                     "description": "The audio to send. Provide either `id` or `link`",
@@ -3194,8 +3615,7 @@
                   }
                 },
                 "required": [
-                  "from",
-                  "to"
+                  "from"
                 ]
               }
             }
@@ -3340,9 +3760,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "document": {
                     "description": "The document to send. Provide either `id` or `link`",
@@ -3369,8 +3794,7 @@
                   }
                 },
                 "required": [
-                  "from",
-                  "to"
+                  "from"
                 ]
               }
             }
@@ -3515,9 +3939,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "sticker": {
                     "description": "The sticker to send. Provide either `id` or `link`",
@@ -3536,8 +3965,7 @@
                   }
                 },
                 "required": [
-                  "from",
-                  "to"
+                  "from"
                 ]
               }
             }
@@ -3682,9 +4110,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "location": {
                     "type": "object",
@@ -3715,7 +4148,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "location"
                 ]
               }
@@ -3861,9 +4293,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "contacts": {
                     "minItems": 1,
@@ -4008,7 +4445,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "contacts"
                 ]
               }
@@ -4154,9 +4590,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "reaction": {
                     "description": "The reaction to send",
@@ -4174,8 +4615,7 @@
                   }
                 },
                 "required": [
-                  "from",
-                  "to"
+                  "from"
                 ]
               }
             }
@@ -4320,9 +4760,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "template": {
                     "type": "object",
@@ -4365,9 +4810,7 @@
                             "parameters": {
                               "description": "Parameters that fill the component placeholders",
                               "type": "array",
-                              "items": {
-
-                              }
+                              "items": {}
                             },
                             "cards": {
                               "description": "Cards of a carousel template",
@@ -4400,9 +4843,7 @@
                                         "parameters": {
                                           "description": "Parameters that fill the component placeholders",
                                           "type": "array",
-                                          "items": {
-
-                                          }
+                                          "items": {}
                                         }
                                       },
                                       "required": [
@@ -4431,7 +4872,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "template"
                 ]
               },
@@ -4634,9 +5074,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "interactive": {
                     "type": "object",
@@ -4734,7 +5179,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "interactive"
                 ]
               }
@@ -4880,9 +5324,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "interactive": {
                     "type": "object",
@@ -4974,7 +5423,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "interactive"
                 ]
               }
@@ -5120,9 +5568,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "interactive": {
                     "type": "object",
@@ -5230,7 +5683,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "interactive"
                 ]
               }
@@ -5376,9 +5828,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "interactive": {
                     "type": "object",
@@ -5394,15 +5851,16 @@
                           "type": {
                             "type": "string",
                             "enum": [
-                              "text",
-                              "image",
-                              "video",
-                              "document"
+                              "text"
                             ]
+                          },
+                          "text": {
+                            "type": "string"
                           }
                         },
                         "required": [
-                          "type"
+                          "type",
+                          "text"
                         ]
                       },
                       "body": {
@@ -5460,12 +5918,8 @@
                               },
                               "flow_action_payload": {
                                 "type": "object",
-                                "properties": {
-
-                                },
-                                "additionalProperties": {
-
-                                }
+                                "properties": {},
+                                "additionalProperties": {}
                               },
                               "flow_token": {
                                 "type": "string",
@@ -5491,7 +5945,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "interactive"
                 ]
               }
@@ -5637,9 +6090,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "interactive": {
                     "type": "object",
@@ -5828,7 +6286,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "interactive"
                 ]
               }
@@ -5974,9 +6431,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "interactive": {
                     "type": "object",
@@ -6347,8 +6809,7 @@
                               "reference_id",
                               "type",
                               "payment_settings",
-                              "total_amount",
-                              "order"
+                              "total_amount"
                             ]
                           }
                         },
@@ -6365,7 +6826,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "interactive"
                 ]
               }
@@ -6511,9 +6971,14 @@
                     "description": "WhatsApp id of the sender phone number"
                   },
                   "to": {
+                    "description": "Recipient phone number, digits only, including country code. Takes precedence over `recipient` when both are set",
                     "type": "string",
-                    "minLength": 1,
-                    "description": "Recipient phone number, digits only, including country code"
+                    "minLength": 1
+                  },
+                  "recipient": {
+                    "description": "Recipient BSUID or parent BSUID, used instead of `to` when the phone number is not known",
+                    "type": "string",
+                    "minLength": 1
                   },
                   "interactive": {
                     "type": "object",
@@ -6638,7 +7103,6 @@
                 },
                 "required": [
                   "from",
-                  "to",
                   "interactive"
                 ]
               }
@@ -6906,9 +7370,7 @@
                           "propertyNames": {
                             "type": "string"
                           },
-                          "additionalProperties": {
-
-                          }
+                          "additionalProperties": {}
                         },
                         {
                           "type": "null"
@@ -7371,5 +7833,6 @@
         }
       }
     }
-  }
+  },
+  "tags": []
 }
