@@ -1,9 +1,9 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Cogfy Messenger Public API",
+    "title": "Cogfy Public API",
     "version": "1.0.0",
-    "description": "API for interacting with the Cogfy Messenger platform"
+    "description": "API for interacting with the Cogfy platform"
   },
   "components": {
     "securitySchemes": {
